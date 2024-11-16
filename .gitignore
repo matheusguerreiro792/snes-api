@@ -1,0 +1,38 @@
+# Dependências do Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Configuração do ambiente
+.env
+
+# Diretórios de build e cache
+dist/
+build/
+.cache/
+.temp/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configurações específicas de IDEs/editores
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de testes de cobertura
+coverage/
+
+# Arquivos gerados pelo sistema de controle de versão
+*.lock
+*.bak
+
+# Configuração de PM2 (se estiver usando)
+pm2-logs/
