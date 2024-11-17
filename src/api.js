@@ -1,12 +1,18 @@
+require("dotenv").config();
 const express = require("express");
-const api = express();
-const routes = require("./routes");
-const PORT = process.env.PORT || 3000;
+const sequelize = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const romRoutes = require("./routes/romRoutes");
 
-api.use(express.json());
+const app = express();
 
-api.use("/", routes);
+app.use(express.json());
 
-api.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.use("/api/auth", authRoutes);
+app.use("/api/roms", romRoutes);
+
+sequelize.sync().then(() => {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("Server is running...");
+  });
 });
