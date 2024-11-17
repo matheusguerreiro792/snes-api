@@ -1,7 +1,6 @@
-const sequelize = require("./db");
+const sequelize = require("../config/db");
 
-const User = require("./user");
-const Rom = require("./rom");
+const { User, Rom } = require("../models");
 
 sequelize.sync({ force: true });
 

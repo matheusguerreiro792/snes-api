@@ -3,7 +3,7 @@ const romController = require("../controllers/romController");
 const {
   authenticateToken,
   authorizeRoles,
-} = require("../middleware/authMiddleware");
+} = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.post(
