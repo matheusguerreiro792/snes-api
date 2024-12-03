@@ -1,29 +1,8 @@
 const express = require("express");
-const romController = require("../controllers/romController");
-const {
-  authenticateToken,
-  authorizeRoles,
-} = require("../middlewares/authMiddleware");
 const router = express.Router();
+const romController = require("../controllers/romController");
 
-router.post(
-  "/",
-  authenticateToken,
-  authorizeRoles(["admin"]),
-  romController.createRom
-);
-router.get("/", authenticateToken, romController.getRoms);
-router.put(
-  "/:id",
-  authenticateToken,
-  authorizeRoles(["admin"]),
-  romController.updateRom
-);
-router.delete(
-  "/:id",
-  authenticateToken,
-  authorizeRoles(["admin"]),
-  romController.deleteRom
-);
+router.get("/roms", romController.getRoms);
+router.post("/roms", romController.createRom);
 
 module.exports = router;
