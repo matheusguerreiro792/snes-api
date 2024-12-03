@@ -3,6 +3,7 @@ const Rom = require("../models/Rom");
 const getRoms = async (req, res) => {
   try {
     const roms = await Rom.findAll();
+
     res.json(roms);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,6 +14,7 @@ const createRom = async (req, res) => {
   try {
     const { title, description, year, frontImages, backImages, downloadLink } =
       req.body;
+
     const rom = await Rom.create({
       title,
       description,
@@ -21,6 +23,7 @@ const createRom = async (req, res) => {
       backImages,
       downloadLink,
     });
+
     res.status(201).json(rom);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -29,7 +32,13 @@ const createRom = async (req, res) => {
 
 const getRom = async (req, res) => {
   try {
-    const rom = await Rom.findByPk(req.params.id);
+    const { id } = req.params;
+    const rom = await Rom.findByPk(id);
+
+    if (!rom) {
+      return res.status(404).json({ message: "Rom not found" });
+    }
+
     res.json(rom);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -72,6 +81,7 @@ const deleteRom = async (req, res) => {
     }
 
     await rom.destroy();
+
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: error.message });
