@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+const sequelize = require("../config/db.js");
 
 const Rom = sequelize.define("Rom", {
   title: {
@@ -13,26 +13,6 @@ const Rom = sequelize.define("Rom", {
   year: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
-  frontImages: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
-    validate: {
-      len: {
-        args: [1, 2],
-        msg: "Rom must have at least 1 front image and at most 2 front images",
-      },
-    },
-  },
-  backImages: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: false,
-    validate: {
-      len: {
-        args: [1, 2],
-        msg: "Rom must have at least 1 back image and at most 2 back images",
-      },
-    },
   },
   downloadLink: {
     type: DataTypes.STRING,

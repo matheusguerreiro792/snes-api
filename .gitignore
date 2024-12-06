@@ -36,3 +36,5 @@ coverage/
 
 # Configuração de PM2 (se estiver usando)
 pm2-logs/
+
+createAdmin.js

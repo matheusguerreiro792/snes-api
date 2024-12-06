@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/User.js");
 
 const getUsers = async (req, res) => {
   try {
@@ -10,21 +10,10 @@ const getUsers = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await User.create({ email, password });
-
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 const getUser = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
     const user = await User.findByPk(id);
 
     if (!user) {
@@ -38,10 +27,10 @@ const getUser = async (req, res) => {
 };
 
 const updateUserRole = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { role } = req.body;
+  const { id } = req.params;
+  const { role } = req.body;
 
+  try {
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -60,10 +49,10 @@ const updateUserRole = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { email, password } = req.body;
+  const { id } = req.params;
+  const { email, password } = req.body;
 
+  try {
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -87,9 +76,9 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  try {
-    const { id } = req.params;
+  const { id } = req.params;
 
+  try {
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -104,7 +93,6 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  createUser,
   updateUserRole,
   getUsers,
   getUser,

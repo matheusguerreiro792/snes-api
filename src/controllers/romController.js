@@ -1,4 +1,5 @@
-const Rom = require("../models/Rom");
+const Rom = require("../models/Rom.js");
+const Image = require("../models/Image.js");
 
 const getRoms = async (req, res) => {
   try {
@@ -11,10 +12,10 @@ const getRoms = async (req, res) => {
 };
 
 const createRom = async (req, res) => {
-  try {
-    const { title, description, year, frontImages, backImages, downloadLink } =
-      req.body;
+  const { title, description, year, frontImages, backImages, downloadLink } =
+    req.body;
 
+  try {
     const rom = await Rom.create({
       title,
       description,
@@ -30,9 +31,83 @@ const createRom = async (req, res) => {
   }
 };
 
-const getRom = async (req, res) => {
+const createImageToRom = async (req, res) => {
+  const { romId, url, type, mobile } = req.body;
+
   try {
-    const { id } = req.params;
+    const rom = await Rom.findByPk(romId);
+    if (!rom) {
+      return res.status(404).json({ message: "Rom not found" });
+    }
+
+    const image = await Image.create({
+      romId,
+      url,
+      type,
+      mobile,
+    });
+
+    res.status(201).json(image);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getImagesByRom = async (req, res) => {
+  const { romId } = req.params;
+
+  try {
+    const images = await Image.findAll({ where: { romId } });
+
+    if (!images.length) {
+      return res.status(404).json({ message: "Images not found for this Rom" });
+    }
+
+    res.json(images);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateImageByRom = async (req, res) => {
+  const { romId, id } = req.params;
+  const { url, type, mobile } = req.body;
+
+  try {
+    const image = await Image.findByPk(id);
+    if (!image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    await image.update({ url, type, mobile }, { where: { romId } });
+
+    res.json(image);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteImageByRom = async (req, res) => {
+  const { romId, id } = req.params;
+
+  try {
+    const image = await Image.findByPk(id);
+    if (!image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    await image.destroy();
+
+    res.json({ message: "Image deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getRom = async (req, res) => {
+  const { id } = req.params;
+
+  try {
     const rom = await Rom.findByPk(id);
 
     if (!rom) {
@@ -46,12 +121,12 @@ const getRom = async (req, res) => {
 };
 
 const updateRom = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { title, description, year, frontImages, backImages, downloadLink } =
-      req.body;
-    const rom = await Rom.findByPk(id);
+  const { id } = req.params;
+  const { title, description, year, frontImages, backImages, downloadLink } =
+    req.body;
 
+  try {
+    const rom = await Rom.findByPk(id);
     if (!rom) {
       return res.status(404).json({ message: "Rom not found" });
     }
@@ -72,8 +147,9 @@ const updateRom = async (req, res) => {
 };
 
 const deleteRom = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
     const rom = await Rom.findByPk(id);
 
     if (!rom) {
@@ -88,4 +164,14 @@ const deleteRom = async (req, res) => {
   }
 };
 
-module.exports = { getRoms, createRom, getRom, updateRom, deleteRom };
+module.exports = {
+  getRoms,
+  createRom,
+  getRom,
+  updateRom,
+  deleteRom,
+  createImageToRom,
+  getImagesByRom,
+  updateImageByRom,
+  deleteImageByRom,
+};
