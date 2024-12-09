@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const romController = require("../controllers/romController");
+const imageController = require("../controllers/imageController");
 const { authenticate, authorize } = require("../middlewares/authMiddleware");
 
 // Auth Routes
@@ -49,7 +50,6 @@ router.delete(
   romController.deleteRom
 );
 
-// Image Routes
 router.get("/roms/:romId/images", romController.getImagesByRom);
 router.post(
   "/roms/:romId/images",
@@ -69,5 +69,8 @@ router.delete(
   authorize(["admin"]),
   romController.deleteImageByRom
 );
+
+// Image Routes
+router.get("/images", imageController.getImages);
 
 module.exports = router;

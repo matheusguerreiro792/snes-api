@@ -3,7 +3,14 @@ const Image = require("../models/Image.js");
 
 const getRoms = async (req, res) => {
   try {
-    const roms = await Rom.findAll();
+    const roms = await Rom.findAll({
+      include: [
+        {
+          model: Image,
+          as: "Images",
+        },
+      ],
+    });
 
     res.json(roms);
   } catch (error) {
@@ -32,7 +39,8 @@ const createRom = async (req, res) => {
 };
 
 const createImageToRom = async (req, res) => {
-  const { romId, url, type, mobile } = req.body;
+  const { romId } = req.params;
+  const { url, type, mobile } = req.body;
 
   try {
     const rom = await Rom.findByPk(romId);
@@ -108,7 +116,14 @@ const getRom = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const rom = await Rom.findByPk(id);
+    const rom = await Rom.findByPk(id, {
+      include: [
+        {
+          model: Image,
+          as: "Images",
+        },
+      ],
+    });
 
     if (!rom) {
       return res.status(404).json({ message: "Rom not found" });
