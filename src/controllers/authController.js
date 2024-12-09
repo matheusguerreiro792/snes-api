@@ -32,7 +32,7 @@ const login = async (req, res) => {
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "16h",
       }
     );
     res.json({ token });
@@ -41,4 +41,13 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const renewToken = async (req, res) => {
+  const { id } = req.user;
+
+  const newToken = jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "16h",
+  });
+  res.json({ token: newToken });
+};
+
+module.exports = { register, login, renewToken };

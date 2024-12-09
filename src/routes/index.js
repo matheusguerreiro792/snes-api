@@ -3,11 +3,12 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const romController = require("../controllers/romController");
-const { authenticate, authorize } = require("../middlewares/auth");
+const { authenticate, authorize } = require("../middlewares/authMiddleware");
 
 // Auth Routes
-router.register = authController.register;
-router.login = authController.login;
+router.post("/register", authController.register);
+router.post("/login", authController.login);
+router.post("/renewToken", authenticate, authController.renewToken);
 
 // User Routes
 router.get(

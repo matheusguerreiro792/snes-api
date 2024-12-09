@@ -11,7 +11,7 @@ const getUsers = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
 
   try {
     const user = await User.findByPk(id);
@@ -27,7 +27,7 @@ const getUser = async (req, res) => {
 };
 
 const updateUserRole = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
   const { role } = req.body;
 
   try {
@@ -49,17 +49,13 @@ const updateUserRole = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const { email, password } = req.body;
+  const { id } = req.user;
+  const { password } = req.body;
 
   try {
     const user = await User.findByPk(id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-    }
-
-    if (email) {
-      user.email = email;
     }
 
     if (password) {
@@ -76,7 +72,7 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
 
   try {
     const user = await User.findByPk(id);
