@@ -11,7 +11,7 @@ pnpm-debug.log*
 
 # Configuração do ambiente
 .env
-.development
+.env.development
 
 # Diretórios de build e cache
 dist/
