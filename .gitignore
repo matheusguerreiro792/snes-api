@@ -11,6 +11,7 @@ pnpm-debug.log*
 
 # Configuração do ambiente
 .env
+.development
 
 # Diretórios de build e cache
 dist/
@@ -37,4 +38,4 @@ coverage/
 # Configuração de PM2 (se estiver usando)
 pm2-logs/
 
-createAdmin.js
+c_A.js
