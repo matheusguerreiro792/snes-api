@@ -7,7 +7,7 @@ const getRoms = async (req, res) => {
       include: [
         {
           model: Image,
-          as: "Images",
+          as: "images",
         },
       ],
     });
@@ -120,7 +120,7 @@ const getRom = async (req, res) => {
       include: [
         {
           model: Image,
-          as: "Images",
+          as: "images",
         },
       ],
     });

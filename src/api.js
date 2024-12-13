@@ -1,10 +1,13 @@
-require("dotenv").config();
+require("dotenv").config({
+  path: `./.env.${process.env.NODE_ENV} || "development"`,
+});
+
 require("./config/db.js");
-require ("./models/associations.js");
+require("./models/associations.js");
 
 const express = require("express");
 const app = express();
-const routes = require("./routes");
+const routes = require("./routes/index.js");
 const sequelize = require("./config/db.js");
 
 app.use(express.json());

@@ -41,13 +41,4 @@ const login = async (req, res) => {
   }
 };
 
-const renewToken = async (req, res) => {
-  const { id } = req.user;
-
-  const newToken = jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "16h",
-  });
-  res.json({ token: newToken });
-};
-
-module.exports = { register, login, renewToken };
+module.exports = { register, login };

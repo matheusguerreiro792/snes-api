@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db");
+const db = require("../config/db");
 const bcrypt = require("bcryptjs");
 
-const User = sequelize.define("User", {
+const User = db.define("User", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,6 +14,9 @@ const User = sequelize.define("User", {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: {
+      len: [8, 32],
+    },
   },
   role: {
     type: DataTypes.ENUM("user", "admin"),

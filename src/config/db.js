@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const { Sequelize } = require("sequelize");
 
 const sequelize = new Sequelize(
@@ -8,7 +7,15 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
-    dialect: "mysql",
+    dialect: process.env.DB_DIALECT,
+    logging: process.env.NODE_ENV === "development" ? console.log : false,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+    timezone: "-03:00",
   }
 );
 
@@ -19,6 +26,7 @@ sequelize
   })
   .catch((error) => {
     console.error("Unable to connect to the database:", error);
+    process.exit(1);
   });
 
 module.exports = sequelize;
