@@ -8,7 +8,7 @@ require("./models/associations.js");
 const express = require("express");
 const app = express();
 const routes = require("./routes/index.js");
-const sequelize = require("./config/db.js");
+const db = require("./config/db.js");
 
 app.use(express.json());
 app.use("/api", routes);
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-sequelize
+db
   .sync({ force: false })
   .then(() => {
     console.log("Database synced successfully");
